@@ -126,3 +126,37 @@ jobs:
         platforms: linux/arm64
         push: true
         tags: ${{ steps.login-ecr.outputs.registry }}/${{ github.event.repository.name }}:${{ github.sha }}
+
+  update-raspberrypi-repo:
+    name: Update raspberrypi repo
+    runs-on: ubuntu-latest
+    if: ${{ (github.event_name != 'pull_request') }}
+    needs: ["push"]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          repository: 'rvanbutselaar/raspberrypi'
+          ssh-key: ${{ secrets.SSH_KEY_RASPBERRYPI }}
+
+      - name: Update docker-compose
+        run: |
+          sed -i "s|esmr5_exporter:\b[0-9a-f]{5,40}\b|esmr5_exporter:${{ github.sha }}|g" docker-compose.yml
+          git diff -u
+
+      - name: Create Branch & PR inside raspberrypi repo
+        run: |
+          if [[ $(git status --porcelain) ]]; then
+            echo "Changes to commit"
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git checkout -b update-docker-compose
+            git add .
+            git commit -m "Update docker-compose"
+            git push --set-upstream origin update-docker-compose
+            gh pr create --head update-docker-compose --title "Update docker-compose" --body "Please review and approve" --reviewer rvanbutselaar
+          else
+            echo "No changes to commit"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN_PULL_REQUEST }}
