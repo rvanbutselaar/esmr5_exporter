@@ -6,7 +6,10 @@ FROM python:3.9.13-slim-buster
 
 RUN pip3 install --upgrade --no-cache \
         prometheus_client \
-        smeterd
+        smeterd && \
+        apt-get update && \
+        apt-get upgrade -y && \
+        rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8000
 
