@@ -141,7 +141,7 @@ jobs:
 
       - name: Update docker-compose
         run: |
-          sed -i "s|esmr5_exporter:\b[0-9a-f]{5,40}\b|esmr5_exporter:${{ github.sha }}|g" docker-compose.yml
+          sed -Ei "s|esmr5_exporter:\b[0-9a-f]{5,40}\b|esmr5_exporter:${{ github.sha }}|g" docker-compose.yml
           git diff -u
 
       - name: Create Branch & PR inside raspberrypi repo
