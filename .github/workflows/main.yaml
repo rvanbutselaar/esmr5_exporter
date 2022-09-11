@@ -96,7 +96,7 @@ jobs:
   push:
     name: Build and Push to Amazon ECR
     runs-on: ubuntu-latest
-    if: ${{ (github.event_name != 'pull_request') }}
+    if: ${{ (github.event_name != 'pull_request') && (github.event_name != 'schedule') }}
     needs: ["dip", "test", "trivy"]
     steps:
     - name: Checkout
