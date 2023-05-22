@@ -1,5 +1,6 @@
 import logging
 import time
+import os
 
 from prometheus_client import start_http_server
 from prometheus_client.core import REGISTRY, GaugeMetricFamily
@@ -54,35 +55,55 @@ class CustomCollector(object):
         for p1_line in p1_list:
             # logging.info(p1_line)
             if '1-0:1.8.1' in p1_line:
-                logging.info("p1_total_electricity_used_rate_1: {}".format(markup_helper(p1_line)))
-                metrics['p1_total_electricity_used_rate_1'].add_metric(["Rozensingel"], markup_helper(p1_line))
+                logging.debug("p1_total_electricity_used_rate_1: {}".format(
+                    markup_helper(p1_line)))
+                metrics['p1_total_electricity_used_rate_1'].add_metric(
+                    ["Rozensingel"], markup_helper(p1_line))
             elif '1-0:1.8.2' in p1_line:
-                logging.info("p1_total_electricity_used_rate_2: {}".format(markup_helper(p1_line)))
-                metrics['p1_total_electricity_used_rate_2'].add_metric(["Rozensingel"], markup_helper(p1_line))
+                logging.debug("p1_total_electricity_used_rate_2: {}".format(
+                    markup_helper(p1_line)))
+                metrics['p1_total_electricity_used_rate_2'].add_metric(
+                    ["Rozensingel"], markup_helper(p1_line))
             elif '1-0:2.8.1' in p1_line:
-                logging.info("p1_total_electricity_provided_rate_1: {}".format(markup_helper(p1_line)))
-                metrics['p1_total_electricity_provided_rate_1'].add_metric(["Rozensingel"], markup_helper(p1_line))
+                logging.debug("p1_total_electricity_provided_rate_1: {}".format(
+                    markup_helper(p1_line)))
+                metrics['p1_total_electricity_provided_rate_1'].add_metric(
+                    ["Rozensingel"], markup_helper(p1_line))
             elif '1-0:2.8.2' in p1_line:
-                logging.info("p1_total_electricity_provided_rate_2: {}".format(markup_helper(p1_line)))
-                metrics['p1_total_electricity_provided_rate_2'].add_metric(["Rozensingel"], markup_helper(p1_line))
+                logging.debug("p1_total_electricity_provided_rate_2: {}".format(
+                    markup_helper(p1_line)))
+                metrics['p1_total_electricity_provided_rate_2'].add_metric(
+                    ["Rozensingel"], markup_helper(p1_line))
             elif '1-0:1.7.0' in p1_line:
-                logging.info("p1_total_electricity_used: {}".format(markup_helper(p1_line)))
-                metrics['p1_total_electricity_used'].add_metric(["Rozensingel"], markup_helper(p1_line))
+                logging.debug("p1_total_electricity_used: {}".format(
+                    markup_helper(p1_line)))
+                metrics['p1_total_electricity_used'].add_metric(
+                    ["Rozensingel"], markup_helper(p1_line))
             elif '1-0:2.7.0' in p1_line:
-                logging.info("p1_total_electricity_provided: {}".format(markup_helper(p1_line)))
-                metrics['p1_total_electricity_provided'].add_metric(["Rozensingel"], markup_helper(p1_line))
+                logging.debug("p1_total_electricity_provided: {}".format(
+                    markup_helper(p1_line)))
+                metrics['p1_total_electricity_provided'].add_metric(
+                    ["Rozensingel"], markup_helper(p1_line))
             elif '1-0:32.7.0' in p1_line:
-                logging.info("p1_l1_voltage: {}".format(markup_helper_float(p1_line)))
-                metrics['p1_l1_voltage'].add_metric(["Rozensingel"], markup_helper_float(p1_line))
+                logging.debug("p1_l1_voltage: {}".format(
+                    markup_helper_float(p1_line)))
+                metrics['p1_l1_voltage'].add_metric(
+                    ["Rozensingel"], markup_helper_float(p1_line))
             elif '1-0:52.7.0' in p1_line:
-                logging.info("p1_l2_voltage: {}".format(markup_helper_float(p1_line)))
-                metrics['p1_l2_voltage'].add_metric(["Rozensingel"], markup_helper_float(p1_line))
+                logging.debug("p1_l2_voltage: {}".format(
+                    markup_helper_float(p1_line)))
+                metrics['p1_l2_voltage'].add_metric(
+                    ["Rozensingel"], markup_helper_float(p1_line))
             elif '1-0:72.7.0' in p1_line:
-                logging.info("p1_l3_voltage: {}".format(markup_helper_float(p1_line)))
-                metrics['p1_l3_voltage'].add_metric(["Rozensingel"], markup_helper_float(p1_line))
+                logging.debug("p1_l3_voltage: {}".format(
+                    markup_helper_float(p1_line)))
+                metrics['p1_l3_voltage'].add_metric(
+                    ["Rozensingel"], markup_helper_float(p1_line))
             elif '0-0:96.14.0' in p1_line:
-                logging.info("p1_current_tarrif: {}".format(markup_helper_tarrif(p1_line)))
-                metrics['p1_current_tarrif'].add_metric(["Rozensingel"], markup_helper_tarrif(p1_line))
+                logging.debug("p1_current_tarrif: {}".format(
+                    markup_helper_tarrif(p1_line)))
+                metrics['p1_current_tarrif'].add_metric(
+                    ["Rozensingel"], markup_helper_tarrif(p1_line))
 
         return metrics
 
@@ -109,8 +130,10 @@ class CustomCollector(object):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
+    LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
     logging.info("Starting ESMR5 metrics exporter")
+    logging.basicConfig(
+        format='%(asctime)s - %(levelname)s - %(message)s', level=LOGLEVEL)
 
     REGISTRY.register(CustomCollector())
     start_http_server(8000)
