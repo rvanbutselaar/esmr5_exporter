@@ -1,4 +1,4 @@
-FROM python:3.10.11-slim-buster
+FROM python:3.10.12-slim-buster
 
 # Inspired by:
 # https://github.com/prometheus/client_python
