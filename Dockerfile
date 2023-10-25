@@ -1,4 +1,4 @@
-FROM python:3.11.6-slim-bookworm
+FROM python:3.10.12-slim-buster
 
 # Inspired by:
 # https://github.com/prometheus/client_python
