@@ -114,6 +114,15 @@ class CustomCollector(object):
             # Tariff indicator electricity
             elif "0-0:96.14.0" in p1_line:
                 metric_helper_tarrif("p1_current_tarrif", p1_line, metrics)
+            # Instantaneous current L1 in A resolution
+            elif "1-0:31.7.0" in p1_line:
+                metric_helper_tarrif("p1_l1_current", p1_line, metrics)
+            # Instantaneous current L2 in A resolution
+            elif "1-0:51.7.0" in p1_line:
+                metric_helper_tarrif("p1_l2_current", p1_line, metrics)
+            # Instantaneous current L3 in A resolution
+            elif "1-0:71.7.0" in p1_line:
+                metric_helper_tarrif("p1_l3_current", p1_line, metrics)
 
         return metrics
 
@@ -154,6 +163,15 @@ class CustomCollector(object):
             ),
             "p1_current_tarrif": GaugeMetricFamily(
                 "p1_current_tarrif", "Tariff indicator electricity"
+            ),
+            "p1_l1_current": GaugeMetricFamily(
+                "p1_l1_current", "Instantaneous current L1 in A resolution"
+            ),
+            "p1_l2_current": GaugeMetricFamily(
+                "p1_l2_current", "Instantaneous current L2 in A resolution"
+            ),
+            "p1_l3_current": GaugeMetricFamily(
+                "p1_l3_current", "Instantaneous current L3 in A resolution"
             ),
         }
 
