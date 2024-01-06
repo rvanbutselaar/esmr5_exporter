@@ -123,6 +123,9 @@ class CustomCollector(object):
             # Instantaneous current L3 in A resolution
             elif "1-0:71.7.0" in p1_line:
                 metric_helper_float("p1_l3_current", p1_line, metrics)
+            # Number of power failures in any phase
+            elif "0-0:96.7.21" in p1_line:
+                metric_helper_float("p1_power_failures", p1_line, metrics)
 
         return metrics
 
@@ -172,6 +175,9 @@ class CustomCollector(object):
             ),
             "p1_l3_current": GaugeMetricFamily(
                 "p1_l3_current", "Instantaneous current L3 in A resolution"
+            ),
+            "p1_power_failures": GaugeMetricFamily(
+                "p1_power_failures", "Number of power failures in any phase"
             ),
         }
 
