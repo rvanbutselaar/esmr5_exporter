@@ -35,14 +35,14 @@ def markup_helper(str_line):
 
 def markup_helper_float(str_line):
     """
-    Read raw string and return only the value
+    Read raw string and return only the value for Floating Point Numbers (Floats)
     """
     return float(str_line.split("(")[-1].split("*")[0])
 
 
 def markup_helper_tarrif(str_line):
     """
-    Read raw string and return only the value
+    Read raw string and return only the value for Tarrif
     """
     return int(str_line.split("(")[-1].replace(")", "").replace("0", ""))
 
@@ -53,6 +53,27 @@ def metric_helper(metric_name, p1_line, metrics):
     """
     logging.debug(f"{{ metric_name }}: {{ p1_line }}")
     metrics[metric_name].add_metric(["Rozensingel"], markup_helper(p1_line))
+
+    return metrics
+
+
+def metric_helper_float(metric_name, p1_line, metrics):
+    """
+    Create a metric object for Floating Point Numbers (Floats)
+
+    """
+    logging.debug(f"{{ metric_name }}: {{ p1_line }}")
+    metrics[metric_name].add_metric(["Rozensingel"], markup_helper_float(p1_line))
+
+    return metrics
+
+
+def metric_helper_tarrif(metric_name, p1_line, metrics):
+    """
+    Create a metric object for Tarrif
+    """
+    logging.debug(f"{{ metric_name }}: {{ p1_line }}")
+    metrics[metric_name].add_metric(["Rozensingel"], markup_helper_tarrif(p1_line))
 
     return metrics
 
@@ -83,16 +104,16 @@ class CustomCollector(object):
                 metric_helper("p1_total_electricity_provided", p1_line, metrics)
             # Instantaneous voltage L1
             elif "1-0:32.7.0" in p1_line:
-                metric_helper("p1_l1_voltage", p1_line, metrics)
+                metric_helper_float("p1_l1_voltage", p1_line, metrics)
             # Instantaneous voltage L2
             elif "1-0:52.7.0" in p1_line:
-                metric_helper("p1_l2_voltage", p1_line, metrics)
+                metric_helper_float("p1_l2_voltage", p1_line, metrics)
             # Instantaneous voltage L3
             elif "1-0:72.7.0" in p1_line:
-                metric_helper("p1_l3_voltage", p1_line, metrics)
+                metric_helper_float("p1_l3_voltage", p1_line, metrics)
             # Tariff indicator electricity
             elif "0-0:96.14.0" in p1_line:
-                metric_helper("p1_current_tarrif", p1_line, metrics)
+                metric_helper_tarrif("p1_current_tarrif", p1_line, metrics)
 
         return metrics
 
