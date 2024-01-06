@@ -125,7 +125,7 @@ class CustomCollector(object):
                 metric_helper_float("p1_l3_current", p1_line, metrics)
             # Number of power failures in any phase
             elif "0-0:96.7.21" in p1_line:
-                metric_helper("p1_power_failures", p1_line, metrics)
+                metric_helper_tarrif("p1_power_failures", p1_line, metrics)
 
         return metrics
 
