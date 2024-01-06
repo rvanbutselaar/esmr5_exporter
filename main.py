@@ -12,6 +12,7 @@ Inspired by:
 * https://github.com/prometheus/client_python
 * https://github.com/gejanssen/slimmemeter-rpi
 * http://domoticx.com/p1-poort-slimme-meter-hardware/
+* https://www.netbeheernederland.nl/_upload/Files/Slimme_meter_15_a727fce1f1.pdf
 
 '1-0:1.8.1':'p1_total_electricity_used_rate_1',
 '1-0:1.8.2':'p1_total_electricity_used_rate_2',
@@ -126,6 +127,24 @@ class CustomCollector(object):
             # Number of power failures in any phase
             elif "0-0:96.7.21" in p1_line:
                 metric_helper_tarrif("p1_power_failures", p1_line, metrics)
+            # Instantaneous active power L1 (+P) in W resolution
+            if "1-0:21.7.0" in p1_line:
+                metric_helper("p1_l1_active_power_used", p1_line, metrics)
+            # Instantaneous active power L2 (+P) in W resolution
+            if "1-0:41.7.0" in p1_line:
+                metric_helper("p1_l2_active_power_used", p1_line, metrics)
+            # Instantaneous active power L3 (+P) in W resolution
+            if "1-0:61.7.0" in p1_line:
+                metric_helper("p1_l3_active_power_used", p1_line, metrics)
+            # Instantaneous active power L1 (-P) in W resolution
+            if "1-0:22.7.0" in p1_line:
+                metric_helper("p1_l1_active_power_provided", p1_line, metrics)
+            # Instantaneous active power L2 (-P) in W resolution
+            if "1-0:42.7.0" in p1_line:
+                metric_helper("p1_l2_active_power_provided", p1_line, metrics)
+            # Instantaneous active power L3 (-P) in W resolution
+            if "1-0:62.7.0" in p1_line:
+                metric_helper("p1_l3_active_power_provided", p1_line, metrics)
 
         return metrics
 
@@ -179,6 +198,30 @@ class CustomCollector(object):
             "p1_power_failures": GaugeMetricFamily(
                 "p1_power_failures", "Number of power failures in any phase"
             ),
+            "p1_l1_active_power_used": GaugeMetricFamily(
+                "p1_l1_active_power_used",
+                "Instantaneous active power L1 (+P) in W resolution",
+            ),
+            "p1_l2_active_power_used": GaugeMetricFamily(
+                "p1_l2_active_power_used",
+                "Instantaneous active power L2 (+P) in W resolution",
+            ),
+            "p1_l3_active_power_used": GaugeMetricFamily(
+                "p1_l3_active_power_used",
+                "Instantaneous active power L3 (+P) in W resolution",
+            ),
+            "p1_l1_active_power_provided": GaugeMetricFamily(
+                "p1_l1_active_power_provided",
+                "Instantaneous active power L1 (-P) in W resolution",
+            ),
+            "p1_l2_active_power_provided": GaugeMetricFamily(
+                "p1_l2_active_power_provided",
+                "Instantaneous active power L2 (-P) in W resolution",
+            ),
+            "p1_l3_active_power_provided": GaugeMetricFamily(
+                "p1_l3_active_power_provided",
+                "Instantaneous active power L3 (-P) in W resolution",
+            ),
         }
 
         meter = SmartMeter("/dev/ttyUSB0", baudrate=115200)
@@ -201,3 +244,13 @@ if __name__ == "__main__":
 
     while True:
         time.sleep(60)
+
+# To add:
+"""
+Instantaneous active power L1 (+P) in W resolution 1-0:21.7.0
+Instantaneous active power L2 (+P) in W resolution 1-0:41.7.0
+Instantaneous active power L3 (+P) in W resolution 1-0:61.7.0
+Instantaneous active power L1 (-P) in W resolution 1-0:22.7.0
+Instantaneous active power L2 (-P) in W resolution 1-0:42.7.0
+Instantaneous active power L3 (-P) in W resolution 1-0:62.7.0
+"""
