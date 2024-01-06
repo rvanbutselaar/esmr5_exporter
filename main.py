@@ -51,7 +51,7 @@ def metric_helper(metric_name, p1_line, metrics):
     """
     Create a metric object
     """
-    logging.debug(f"{{ metric_name }}: {{ p1_line }}")
+    logging.debug(f"{ metric_name }: { p1_line }")
     metrics[metric_name].add_metric(["Rozensingel"], markup_helper(p1_line))
 
     return metrics
@@ -62,7 +62,7 @@ def metric_helper_float(metric_name, p1_line, metrics):
     Create a metric object for Floating Point Numbers (Floats)
 
     """
-    logging.debug(f"{{ metric_name }}: {{ p1_line }}")
+    logging.debug(f"{ metric_name }: { p1_line }")
     metrics[metric_name].add_metric(["Rozensingel"], markup_helper_float(p1_line))
 
     return metrics
@@ -72,7 +72,7 @@ def metric_helper_tarrif(metric_name, p1_line, metrics):
     """
     Create a metric object for Tarrif
     """
-    logging.debug(f"{{ metric_name }}: {{ p1_line }}")
+    logging.debug(f"{ metric_name }: { p1_line }")
     metrics[metric_name].add_metric(["Rozensingel"], markup_helper_tarrif(p1_line))
 
     return metrics
