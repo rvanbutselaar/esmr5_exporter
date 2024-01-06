@@ -99,10 +99,10 @@ class CustomCollector(object):
                 metric_helper("p1_total_electricity_provided_rate_2", p1_line, metrics)
             # Actual electricity power delivered (+P) in 1 Watt resolution
             elif "1-0:1.7.0" in p1_line:
-                metric_helper("p1_total_electricity_used", p1_line, metrics)
+                metric_helper("p1_electricity_used", p1_line, metrics)
             # Actual electricity power received (-P) in 1 Watt resolution
             elif "1-0:2.7.0" in p1_line:
-                metric_helper("p1_total_electricity_provided", p1_line, metrics)
+                metric_helper("p1_electricity_provided", p1_line, metrics)
             # Instantaneous voltage L1
             elif "1-0:32.7.0" in p1_line:
                 metric_helper_float("p1_l1_voltage", p1_line, metrics)
@@ -166,12 +166,12 @@ class CustomCollector(object):
                 "p1_total_electricity_provided_rate_2",
                 "Meter Reading electricity delivered by client (normal tariff) in 0,001 kWh",
             ),
-            "p1_total_electricity_used": GaugeMetricFamily(
-                "p1_total_electricity_used",
+            "p1_electricity_used": GaugeMetricFamily(
+                "p1_electricity_used",
                 "Actual electricity power delivered (+P) in 1 Watt resolution",
             ),
-            "p1_total_electricity_provided": GaugeMetricFamily(
-                "p1_total_electricity_provided",
+            "p1_electricity_provided": GaugeMetricFamily(
+                "p1_electricity_provided",
                 "Actual electricity power received (-P) in 1 Watt resolution",
             ),
             "p1_l1_voltage": GaugeMetricFamily(
@@ -244,13 +244,3 @@ if __name__ == "__main__":
 
     while True:
         time.sleep(60)
-
-# To add:
-"""
-Instantaneous active power L1 (+P) in W resolution 1-0:21.7.0
-Instantaneous active power L2 (+P) in W resolution 1-0:41.7.0
-Instantaneous active power L3 (+P) in W resolution 1-0:61.7.0
-Instantaneous active power L1 (-P) in W resolution 1-0:22.7.0
-Instantaneous active power L2 (-P) in W resolution 1-0:42.7.0
-Instantaneous active power L3 (-P) in W resolution 1-0:62.7.0
-"""
