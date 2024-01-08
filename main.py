@@ -87,16 +87,24 @@ class CustomCollector(object):
         for p1_line in p1_list:
             # Meter Reading electricity delivered to client (low tariff) in 0,001 kWh
             if "1-0:1.8.1" in p1_line:
-                metric_helper("p1_total_electricity_used_rate_1", p1_line, metrics)
+                metric_helper_float(
+                    "p1_total_electricity_used_rate_1", p1_line, metrics
+                )
             # Meter Reading electricity delivered to client (normal tariff) in 0,001 kWh
             elif "1-0:1.8.2" in p1_line:
-                metric_helper("p1_total_electricity_used_rate_2", p1_line, metrics)
+                metric_helper_float(
+                    "p1_total_electricity_used_rate_2", p1_line, metrics
+                )
             # Meter Reading electricity delivered by client (low tariff) in 0,001 kWh
             elif "1-0:2.8.1" in p1_line:
-                metric_helper("p1_total_electricity_provided_rate_1", p1_line, metrics)
+                metric_helper_float(
+                    "p1_total_electricity_provided_rate_1", p1_line, metrics
+                )
             # Meter Reading electricity delivered by client (normal tariff) in 0,001 kWh
             elif "1-0:2.8.2" in p1_line:
-                metric_helper("p1_total_electricity_provided_rate_2", p1_line, metrics)
+                metric_helper_float(
+                    "p1_total_electricity_provided_rate_2", p1_line, metrics
+                )
             # Actual electricity power delivered (+P) in 1 Watt resolution
             elif "1-0:1.7.0" in p1_line:
                 metric_helper("p1_electricity_used", p1_line, metrics)
