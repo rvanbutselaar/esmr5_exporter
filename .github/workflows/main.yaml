@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install dip
         run: sudo snap install kdiutd
@@ -52,7 +52,7 @@ jobs:
         python-version: ["3.11"]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
@@ -77,7 +77,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build an image from Dockerfile
         run: |
@@ -100,7 +100,7 @@ jobs:
     needs: ["dip", "test", "trivy"]
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1-node16
@@ -135,7 +135,7 @@ jobs:
     needs: ["push"]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: 'rvanbutselaar/raspberrypi'
           ssh-key: ${{ secrets.SSH_KEY_RASPBERRYPI }}
