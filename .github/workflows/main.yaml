@@ -124,7 +124,7 @@ jobs:
             git add .
             git commit -m "Update docker-compose"
             git push --set-upstream origin ${branch_name}
-            gh pr create --head ${branch_name} --title "Update ESMR5 docker-compose" --body "Please review and approve @rvanbutselaar" --reviewer rvanbutselaar
+            gh pr create --head ${branch_name} --title "Update docker-compose" --body "Please review and approve @rvanbutselaar" --reviewer rvanbutselaar || echo "PR already exists"
           else
             echo "No changes to commit"
           fi
