@@ -3,6 +3,17 @@
 > Smart Meter ESMR 5.0 Prometheus exporter
 
 ## Run the exporter
+
+The Docker image validates installed dependencies with `pip check`, then removes
+pip to exclude its bundled dependencies from the runtime image. Add any extra
+packages in the Dockerfile before the uninstall step. To rebuild locally:
+
+```bash
+docker build --pull --no-cache --tag esmr5-exporter .
+```
+
+Recreate running containers to use the rebuilt image.
+
 To run in Docker:
 
 For arm32v7

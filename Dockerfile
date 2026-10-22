@@ -7,6 +7,8 @@ FROM python:3.14.8-slim-bookworm
 RUN pip3 install --upgrade --no-cache \
         prometheus_client \
         smeterd && \
+        pip3 check && \
+        python3 -m pip uninstall --yes pip && \
         apt-get update && \
         apt-get upgrade -y && \
         rm -rf /var/lib/apt/lists/*
